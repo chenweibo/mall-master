@@ -25,6 +25,10 @@ public interface UmsMemberService {
     @Transactional
     void register(String username, String password, String telephone, String authCode);
 
+
+    @Transactional
+    UmsMember wxRegister(String telephone, String openid);
+
     /**
      * 生成验证码
      */
@@ -67,7 +71,7 @@ public interface UmsMemberService {
     /**
      * 微信登录后获取token
      */
-    String wxlogin(String phone);
+    String wxlogin(String phone, String openid);
 
     /**
      * 刷新token

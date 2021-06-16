@@ -1,17 +1,21 @@
 package com.macro.mall.portal.controller;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.config.WxMaConfiguration;
+import com.macro.mall.portal.domain.WxGetPhoneParams;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -44,13 +48,30 @@ public class UmsMemberController {
         return CommonResult.success(null, "注册成功");
     }
 
+    @ApiOperation("获取sessionkey")
+    @RequestMapping(value = "/key", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getWxSessionKey(@RequestParam String code
+    ) throws WxErrorException {
+        final WxMaService wxService = WxMaConfiguration.getMaService("wx1ba7d5fb1e82cc58");
+        WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
+        return CommonResult.success(session);
+    }
+
+
     @ApiOperation("微信登录")
     @RequestMapping(value = "/wx/login", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult wxLogin() {
+    public CommonResult wxLogin(@RequestBody WxGetPhoneParams wxGetPhoneParams) {
+        //System.out.println(wxGetPhoneParams.getCode());
 
 
-        return CommonResult.success("登陆成功");
+        final WxMaService wxService = WxMaConfiguration.getMaService("wx1ba7d5fb1e82cc58");
+
+        WxMaPhoneNumberInfo phoneNoInfo = wxService.getUserService().getPhoneNoInfo(wxGetPhoneParams.getSessionKey(), wxGetPhoneParams.getEncryptedData(), wxGetPhoneParams.getIv());
+        // System.out.println(phoneNoInfo);
+        return CommonResult.success(memberService.wxlogin(phoneNoInfo.getPhoneNumber(), wxGetPhoneParams.getOpenid()));
+
     }
 
     @ApiOperation("会员登录")

@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 9085
 
 spring:
   datasource:
@@ -35,7 +35,7 @@ spring:
 
 logging:
   level:
-    root: info
+    root: error
     com.macro.mall: debug
 
 logstash:

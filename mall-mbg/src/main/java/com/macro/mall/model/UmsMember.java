@@ -1,9 +1,12 @@
 package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 public class UmsMember implements Serializable {
     private Long id;
 
@@ -14,6 +17,9 @@ public class UmsMember implements Serializable {
 
     @ApiModelProperty(value = "密码")
     private String password;
+
+    @ApiModelProperty(value = "微信小程序openid")
+    private String openid;
 
     @ApiModelProperty(value = "昵称")
     private String nickname;
@@ -81,6 +87,7 @@ public class UmsMember implements Serializable {
     public String getUsername() {
         return username;
     }
+
 
     public void setUsername(String username) {
         this.username = username;

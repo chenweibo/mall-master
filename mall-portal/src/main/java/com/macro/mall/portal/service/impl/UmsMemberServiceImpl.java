@@ -77,6 +77,30 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
+    public UmsMember wxRegister(String telephone, String openid) {
+
+        //没有该用户进行添加操作
+        UmsMember umsMember = new UmsMember();
+        umsMember.setUsername("微信用户");
+        umsMember.setPhone(telephone);
+        umsMember.setOpenid(openid);
+        umsMember.setCreateTime(new Date());
+        umsMember.setStatus(1);
+        //获取默认会员等级并设置
+        UmsMemberLevelExample levelExample = new UmsMemberLevelExample();
+        levelExample.createCriteria().andDefaultStatusEqualTo(1);
+        List<UmsMemberLevel> memberLevelList = memberLevelMapper.selectByExample(levelExample);
+        if (!CollectionUtils.isEmpty(memberLevelList)) {
+            umsMember.setMemberLevelId(memberLevelList.get(0).getId());
+        }
+        memberMapper.insert(umsMember);
+        umsMember.setPassword(null);
+        return umsMember;
+
+    }
+
+
+    @Override
     public void register(String username, String password, String telephone, String authCode) {
         //验证验证码
         if (!verifyAuthCode(authCode, telephone)) {
@@ -189,9 +213,28 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public String wxlogin(String phone) {
+    public String wxlogin(String phone, String openid) {
+
         String token = null;
 
+        UmsMember umsMember = memberMapper.selectByPhone(phone);
+        if (umsMember == null) {
+            UmsMember newUmsMember = this.wxRegister(phone, openid);
+            System.out.println(newUmsMember.toString());
+            MemberDetails userDetails = new MemberDetails(newUmsMember);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            token = jwtTokenUtil.generateToken(userDetails);
+
+            return token;
+
+        }
+        MemberDetails userDetails = new MemberDetails(umsMember);
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        token = jwtTokenUtil.generateToken(userDetails);
 
         return token;
     }
