@@ -35,9 +35,8 @@ spring:
 
 logging:
   level:
-    root: error
-    com.macro.mall: debug
+    root: info
+    com.macro.mall: info
 
 logstash:
   host: localhost
-

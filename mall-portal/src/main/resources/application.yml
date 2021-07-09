@@ -5,6 +5,8 @@ spring:
     active: dev #默认为开发环境
 
 mybatis:
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:com/**/mapper/*.xml
@@ -33,6 +35,7 @@ secure:
       - /home/**
       - /product/**
       - /brand/**
+      - /doc.html
 
 # 自定义redis key
 redis:

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by macro on 2018/10/17.
  */
 @Controller
-@Api(tags = "OmsPortalOrderReturnApplyController", description = "申请退货管理")
+@Api(tags = "申请退货管理", description = "申请退货管理")
 @RequestMapping("/returnApply")
 public class OmsPortalOrderReturnApplyController {
     @Autowired

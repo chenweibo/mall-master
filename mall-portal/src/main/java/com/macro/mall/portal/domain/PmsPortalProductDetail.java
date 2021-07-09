@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 前台商品详情
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class PmsPortalProductDetail{
+public class PmsPortalProductDetail {
     @ApiModelProperty("商品信息")
     private PmsProduct product;
     @ApiModelProperty("商品品牌")
@@ -30,4 +31,9 @@ public class PmsPortalProductDetail{
     private List<PmsProductFullReduction> productFullReductionList;
     @ApiModelProperty("商品可用优惠券")
     private List<SmsCoupon> couponList;
+
+    @ApiModelProperty("商品可用优惠券")
+    private
+    List<Map<String, Object>> spec_list;
+
 }

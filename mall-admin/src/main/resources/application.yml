@@ -46,6 +46,8 @@ secure:
       - /admin/info
       - /admin/logout
       - /minio/upload
+      - /
+      - /static/**
 
 aliyun:
   oss:
@@ -60,8 +62,3 @@ aliyun:
     dir:
       prefix: mall/images/ # 上传文件夹路径前缀
 
-minio:
-  endpoint: http://127.0.0.1:9000 #MinIO服务所在地址
-  bucketName: mall #存储桶名称
-  accessKey: minioadmin #访问的key
-  secretKey: minioadmin #访问的秘钥

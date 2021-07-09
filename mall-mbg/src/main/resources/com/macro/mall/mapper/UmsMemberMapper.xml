@@ -8,6 +8,7 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>

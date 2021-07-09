@@ -4,9 +4,14 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.mapper.UmsMemberMapper;
+import com.macro.mall.model.SmsCoupon;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.config.WxMaConfiguration;
+import com.macro.mall.portal.dao.SmsCouponHistoryDao;
 import com.macro.mall.portal.domain.WxGetPhoneParams;
+import com.macro.mall.portal.service.MemberCollectionService;
+import com.macro.mall.portal.service.UmsMemberCouponService;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +33,7 @@ import java.util.Map;
  * Created by macro on 2018/8/3.
  */
 @Controller
-@Api(tags = "UmsMemberController", description = "会员登录注册管理")
+@Api(tags = "会员登录注册管理", description = "会员登录注册管理")
 @RequestMapping("/sso")
 public class UmsMemberController {
     @Value("${jwt.tokenHeader}")
@@ -36,6 +42,14 @@ public class UmsMemberController {
     private String tokenHead;
     @Autowired
     private UmsMemberService memberService;
+    @Autowired
+    private UmsMemberCouponService memberCouponService;
+    @Autowired
+    private SmsCouponHistoryDao couponHistoryDao;
+    @Autowired
+    private MemberCollectionService memberCollectionService;
+    @Autowired
+    private UmsMemberMapper memberMapper;
 
     @ApiOperation("会员注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -118,6 +132,21 @@ public class UmsMemberController {
         return CommonResult.success(null, "密码修改成功");
     }
 
+    @ApiOperation("获取微信小程序个人中心信息")
+    @RequestMapping(value = "/my", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult my(Principal principal) {
+
+        if (principal == null) {
+            return CommonResult.unauthorized(null);
+        }
+        UmsMember member = memberService.getCurrentMember();
+        Map<String, Object> result = new HashMap<>();
+        result.put("couponNum", couponHistoryDao.getCouponListCount(member.getId(), 0));
+        result.put("integration", member);
+        //result.put("collectNum", couponHistoryDao.getCouponListCount(member.getId(), 0));
+        return CommonResult.success(result, "ok");
+    }
 
     @ApiOperation(value = "刷新token")
     @RequestMapping(value = "/refreshToken", method = RequestMethod.GET)

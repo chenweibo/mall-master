@@ -1,5 +1,6 @@
 package com.macro.mall.portal.dao;
 
+import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.SmsCoupon;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.PromotionProduct;
@@ -21,6 +22,8 @@ public interface PortalProductDao {
      * 获取促销商品信息列表
      */
     List<PromotionProduct> getPromotionProductList(@Param("ids") List<Long> ids);
+
+    List<PmsProduct> search(String keyword, Integer productCategoryId);
 
     /**
      * 获取可用优惠券列表

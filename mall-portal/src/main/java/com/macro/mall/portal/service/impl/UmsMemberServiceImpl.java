@@ -28,9 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 会员管理Service实现类
@@ -81,7 +79,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
         //没有该用户进行添加操作
         UmsMember umsMember = new UmsMember();
-        umsMember.setUsername("微信用户");
+        umsMember.setUsername(openid);
         umsMember.setPhone(telephone);
         umsMember.setOpenid(openid);
         umsMember.setCreateTime(new Date());
@@ -213,9 +211,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public String wxlogin(String phone, String openid) {
+    public Object wxlogin(String phone, String openid) {
 
         String token = null;
+        Map<String, Object> res = new HashMap<>();
 
         UmsMember umsMember = memberMapper.selectByPhone(phone);
         if (umsMember == null) {
@@ -226,9 +225,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
-
-            return token;
-
+            newUmsMember.setPassword("");
+            res.put("user", newUmsMember);
+            res.put("token", token);
+            return res;
         }
         MemberDetails userDetails = new MemberDetails(umsMember);
 
@@ -236,7 +236,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         token = jwtTokenUtil.generateToken(userDetails);
 
-        return token;
+        res.put("user", umsMember);
+        res.put("token", token);
+        return res;
     }
 
 

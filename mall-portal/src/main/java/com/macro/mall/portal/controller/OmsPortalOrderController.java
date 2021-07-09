@@ -5,6 +5,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.PromptParams;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Created by macro on 2018/8/30.
  */
 @Controller
-@Api(tags = "OmsPortalOrderController", description = "订单管理")
+@Api(tags = "订单管理", description = "订单管理")
 @RequestMapping("/order")
 public class OmsPortalOrderController {
     @Autowired
@@ -34,6 +35,17 @@ public class OmsPortalOrderController {
         ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrder(cartIds);
         return CommonResult.success(confirmOrderResult);
     }
+
+//    @ApiOperation("根据选中产品立即生成确认单信息")
+//    @RequestMapping(value = "/generatePromptOrder", method = RequestMethod.POST)
+//    @ResponseBody
+//    public CommonResult<ConfirmOrderResult> generatePromptOrder(@RequestBody PromptParams promptParams) {
+//
+//        ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrder(cartIds);
+//        return CommonResult.success(confirmOrderResult);
+//    }
+
+
 
     @ApiOperation("根据购物车信息生成订单")
     @RequestMapping(value = "/generateOrder", method = RequestMethod.POST)

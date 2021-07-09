@@ -18,7 +18,7 @@ import java.util.List;
  * Created by macro on 2020/5/15.
  */
 @Controller
-@Api(tags = "PortalBrandController", description = "前台品牌管理")
+@Api(tags = "前台品牌管理", description = "前台品牌管理")
 @RequestMapping("/brand")
 public class PortalBrandController {
 

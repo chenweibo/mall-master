@@ -17,6 +17,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+
     <dependencies>
         <dependency>
             <groupId>com.macro.mall</groupId>
@@ -48,6 +49,11 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.7</version>
         </dependency>
     </dependencies>
 

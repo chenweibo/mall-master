@@ -19,7 +19,7 @@ import java.util.List;
  * Created by macro on 2018/8/2.
  */
 @Controller
-@Api(tags = "MemberAttentionController", description = "会员关注品牌管理")
+@Api(tags = "会员关注品牌管理", description = "会员关注品牌管理")
 @RequestMapping("/member/attention")
 public class MemberAttentionController {
     @Autowired

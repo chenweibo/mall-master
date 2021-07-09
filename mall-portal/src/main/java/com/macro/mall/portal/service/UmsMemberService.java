@@ -71,7 +71,7 @@ public interface UmsMemberService {
     /**
      * 微信登录后获取token
      */
-    String wxlogin(String phone, String openid);
+    Object wxlogin(String phone, String openid);
 
     /**
      * 刷新token

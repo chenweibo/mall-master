@@ -18,7 +18,7 @@ import java.util.List;
  * Created by macro on 2018/8/2.
  */
 @Controller
-@Api(tags = "MemberCollectionController", description = "会员收藏管理")
+@Api(tags = "会员收藏管理", description = "会员收藏管理")
 @RequestMapping("/member/productCollection")
 public class MemberProductCollectionController {
     @Autowired
@@ -28,11 +28,12 @@ public class MemberProductCollectionController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody MemberProductCollection productCollection) {
+
         int count = memberCollectionService.add(productCollection);
         if (count > 0) {
             return CommonResult.success(count);
         } else {
-            return CommonResult.failed();
+            return CommonResult.success(0);
         }
     }
 
@@ -53,7 +54,7 @@ public class MemberProductCollectionController {
     @ResponseBody
     public CommonResult<CommonPage<MemberProductCollection>> list(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
-        Page<MemberProductCollection> page = memberCollectionService.list(pageNum,pageSize);
+        Page<MemberProductCollection> page = memberCollectionService.list(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(page));
     }
 
