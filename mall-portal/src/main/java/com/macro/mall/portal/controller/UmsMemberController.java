@@ -51,6 +51,7 @@ public class UmsMemberController {
     @Autowired
     private UmsMemberMapper memberMapper;
 
+
     @ApiOperation("会员注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -143,8 +144,10 @@ public class UmsMemberController {
         UmsMember member = memberService.getCurrentMember();
         Map<String, Object> result = new HashMap<>();
         result.put("couponNum", couponHistoryDao.getCouponListCount(member.getId(), 0));
-        result.put("integration", member);
-        //result.put("collectNum", couponHistoryDao.getCouponListCount(member.getId(), 0));
+        result.put("integral", member.getIntegration());
+        result.put("level", member.getMemberLevelId());
+
+        result.put("collectNum", memberCollectionService.userCount());
         return CommonResult.success(result, "ok");
     }
 

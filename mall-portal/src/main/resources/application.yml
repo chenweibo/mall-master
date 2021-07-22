@@ -5,8 +5,9 @@ spring:
     active: dev #默认为开发环境
 
 mybatis:
-  #  configuration:
-  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:com/**/mapper/*.xml

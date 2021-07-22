@@ -96,6 +96,23 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         ConfirmOrderResult result = new ConfirmOrderResult();
         //获取购物车信息
         UmsMember currentMember = memberService.getCurrentMember();
+       // List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(currentMember.getId(), cartIds);
+        //result.setCartPromotionItemList(cartPromotionItemList);
+        //获取用户收货地址列表
+        List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list();
+        result.setMemberReceiveAddressList(memberReceiveAddressList);
+        //获取用户可用优惠券列表
+        //List<SmsCouponHistoryDetail> couponHistoryDetailList = memberCouponService.listCart(cartPromotionItemList, 1);
+        //result.setCouponHistoryDetailList(couponHistoryDetailList);
+        //获取用户积分
+        result.setMemberIntegration(currentMember.getIntegration());
+        //获取积分使用规则
+        UmsIntegrationConsumeSetting integrationConsumeSetting = integrationConsumeSettingMapper.selectByPrimaryKey(1L);
+        result.setIntegrationConsumeSetting(integrationConsumeSetting);
+        //计算总金额、活动优惠、应付金额
+        //ConfirmOrderResult.CalcAmount calcAmount = calcCartAmount(cartPromotionItemList);
+       // result.setCalcAmount(calcAmount);
+
 
         return result;
     }

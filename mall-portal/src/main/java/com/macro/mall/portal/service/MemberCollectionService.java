@@ -20,6 +20,8 @@ public interface MemberCollectionService {
      */
     int delete(Long productId);
 
+    int userCount();
+
     /**
      * 分页查询收藏
      */

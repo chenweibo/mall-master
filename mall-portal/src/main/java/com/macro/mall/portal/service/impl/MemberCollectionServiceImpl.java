@@ -53,6 +53,15 @@ public class MemberCollectionServiceImpl implements MemberCollectionService {
     }
 
     @Override
+    public int userCount() {
+        UmsMember member = memberService.getCurrentMember();
+
+        return productCollectionRepository.countByMemberId(member.getId());
+
+    }
+
+
+    @Override
     public MemberProductCollection detail(Long productId) {
         UmsMember member = memberService.getCurrentMember();
         return productCollectionRepository.findByMemberIdAndProductId(member.getId(), productId);

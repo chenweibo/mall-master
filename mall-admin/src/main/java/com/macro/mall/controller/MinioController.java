@@ -2,6 +2,7 @@ package com.macro.mall.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.BucketPolicyConfigDto;
@@ -67,9 +68,9 @@ public class MinioController {
                 minioClient.setBucketPolicy(setBucketPolicyArgs);
             }
             String filename = file.getOriginalFilename();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             // 设置存储对象名称
-            String objectName = sdf.format(new Date()) + "/" + filename;
+            String objectName = IdUtil.simpleUUID() + "/" + filename;
             // 使用putObject上传一个文件到存储桶中
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(BUCKET_NAME)
@@ -77,7 +78,7 @@ public class MinioController {
                     .contentType(file.getContentType())
                     .stream(file.getInputStream(), file.getSize(), ObjectWriteArgs.MIN_MULTIPART_SIZE).build();
             minioClient.putObject(putObjectArgs);
-            LOGGER.info("文件上传成功!");
+            //LOGGER.info("文件上传成功!");
             MinioUploadDto minioUploadDto = new MinioUploadDto();
             minioUploadDto.setName(filename);
             minioUploadDto.setUrl(url + "/" + BUCKET_NAME + "/" + objectName);
