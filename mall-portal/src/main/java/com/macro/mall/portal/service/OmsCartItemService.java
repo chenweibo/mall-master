@@ -3,6 +3,7 @@ package com.macro.mall.portal.service;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.PromptParams;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public interface OmsCartItemService {
      * 获取包含促销活动信息的购物车列表
      */
     List<CartPromotionItem> listPromotion(Long memberId, List<Long> cartIds);
+
+    List<CartPromotionItem> listPromotionOne(PromptParams promptParams);
 
     /**
      * 修改某个购物车商品的数量

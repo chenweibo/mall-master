@@ -1,12 +1,10 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.common.api.CommonPage;
-import com.macro.mall.portal.domain.ConfirmOrderResult;
-import com.macro.mall.portal.domain.OmsOrderDetail;
-import com.macro.mall.portal.domain.OrderParam;
-import com.macro.mall.portal.domain.PromptParams;
+import com.macro.mall.portal.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +32,25 @@ public interface OmsPortalOrderService {
     @Transactional
     Map<String, Object> generateOrder(OrderParam orderParam);
 
+
+    /**
+     * 根据提交信息生成订单
+     */
+    @Transactional
+    Map<String, Object> nowGenerateOrder(NowOrderParam orderParam);
+
     /**
      * 支付成功后的回调
      */
     @Transactional
     Integer paySuccess(Long orderId, Integer payType);
+
+    @Transactional
+    Integer updateOrderSn(Long orderId, String orderSn);
+
+
+    @Transactional
+    Integer updateOrderSnSuccess(String orderSn, BigDecimal pay);
 
     /**
      * 自动取消超时订单

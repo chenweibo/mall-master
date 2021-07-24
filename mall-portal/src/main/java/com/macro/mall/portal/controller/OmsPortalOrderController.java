@@ -1,5 +1,6 @@
 package com.macro.mall.portal.controller;
 
+import com.github.binarywang.wxpay.service.WxPayService;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
@@ -7,6 +8,7 @@ import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.PromptParams;
 import com.macro.mall.portal.service.OmsPortalOrderService;
+import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,14 @@ public class OmsPortalOrderController {
     @Autowired
     private OmsPortalOrderService portalOrderService;
 
+    private WxPayService wxService;
+    @Autowired
+    private UmsMemberService memberService;
+
+    public OmsPortalOrderController(WxPayService wxService) {
+        this.wxService = wxService;
+    }
+
     @ApiOperation("根据购物车信息生成确认单信息")
     @RequestMapping(value = "/generateConfirmOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -41,9 +51,8 @@ public class OmsPortalOrderController {
     @ResponseBody
     public CommonResult generatePromptOrder(@RequestBody PromptParams promptParams) {
 
-        // ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrder(cartIds);
-        // return CommonResult.success(confirmOrderResult);
-         return CommonResult.success("");
+        ConfirmOrderResult confirmOrderResult = portalOrderService.generateConfirmOrderNow(promptParams);
+        return CommonResult.success(confirmOrderResult);
     }
 
     @ApiOperation("根据购物车信息生成订单")

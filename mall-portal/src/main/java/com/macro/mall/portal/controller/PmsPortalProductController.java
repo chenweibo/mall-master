@@ -51,13 +51,13 @@ public class PmsPortalProductController {
     @ResponseBody
     public CommonResult<CommonPage<PmsProduct>> search(@RequestParam(required = false) String keyword,
                                                        @RequestParam(required = false) Long brandId,
-                                                       @RequestParam(required = false) Integer productCategoryId,
+                                                       @RequestParam(required = false) Long productCategoryId,
                                                        @RequestParam(required = false, defaultValue = "0") Integer pageNum,
                                                        @RequestParam(required = false, defaultValue = "8") Integer pageSize,
                                                        @RequestParam(required = false, defaultValue = "0") Integer sort) {
-        //List<PmsProduct> productList = portalProductService.search(keyword, brandId, productCategoryId, pageNum, pageSize, sort);
+        List<PmsProduct> productList = portalProductService.search(keyword, brandId, productCategoryId, pageNum, pageSize, sort);
         //LOGGER.info(productList.toString());
-        List<PmsProduct> productList = portalProductDao.search(keyword, productCategoryId);
+        // List<PmsProduct> productList = portalProductDao.search(keyword, productCategoryId);
 
         return CommonResult.success(CommonPage.restPage(productList));
     }
