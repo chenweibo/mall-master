@@ -26,8 +26,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
     private PmsProductMapper productMapper;
     @Autowired
     private PmsProductCategoryMapper productCategoryMapper;
-    @Autowired
-    private PmsBrandMapper brandMapper;
+
     @Autowired
     private PmsProductAttributeMapper productAttributeMapper;
     @Autowired
@@ -47,6 +46,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
         PmsProductExample example = new PmsProductExample();
         PmsProductExample.Criteria criteria = example.createCriteria();
         criteria.andDeleteStatusEqualTo(0);
+        criteria.andPublishStatusEqualTo(1);
         if (StrUtil.isNotEmpty(keyword)) {
             criteria.andNameLike("%" + keyword + "%");
         }

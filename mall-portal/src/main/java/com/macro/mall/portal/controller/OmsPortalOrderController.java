@@ -1,14 +1,18 @@
 package com.macro.mall.portal.controller;
 
+import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
+import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.portal.domain.ConfirmOrderResult;
-import com.macro.mall.portal.domain.OmsOrderDetail;
-import com.macro.mall.portal.domain.OrderParam;
-import com.macro.mall.portal.domain.PromptParams;
+import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.domain.*;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import com.macro.mall.portal.service.UmsMemberService;
+import com.macro.mall.portal.util.SnowFlake;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +68,59 @@ public class OmsPortalOrderController {
         return CommonResult.success(result, "下单成功");
     }
 
-    @ApiOperation("用户支付成功的回调")
+    @ApiOperation("立即购买生成订单")
+    @RequestMapping(value = "/anongenerateOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult anonGenerateOrder(@RequestBody NowOrderParam orderParam) {
+        Map<String, Object> result = portalOrderService.nowGenerateOrder(orderParam);
+        return CommonResult.success(result, "下单成功");
+    }
+
+    @ApiOperation("发起付款")
+    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult pay(@RequestParam Long orderId) throws WxPayException {
+
+        UmsMember member = memberService.getCurrentMember();
+
+        OmsOrderDetail orderDetail = portalOrderService.detail(orderId);
+
+        BigDecimal bignum2 = new BigDecimal("100");
+        SnowFlake snowFlake = new SnowFlake(10, 10);
+        String snid = snowFlake.nextId() + "";
+
+        portalOrderService.updateOrderSn(orderId, snid);
+
+        WxPayUnifiedOrderRequest request = WxPayUnifiedOrderRequest.newBuilder()
+                .openid(member.getOpenid()).notifyUrl("https://wx.ccfczj.com/order/wxpaySuccess")
+                .body("商品").outTradeNo(snid).spbillCreateIp("122.114.55.76").tradeType("JSAPI").totalFee(orderDetail.getPayAmount().multiply(bignum2).intValue()).build();
+
+        WxPayMpOrderResult temp = wxService.createOrder(request);
+        return CommonResult.success(temp);
+    }
+
+    @ApiOperation("wx用户支付成功的回调")
+    @RequestMapping(value = "/wxpaySuccess", method = RequestMethod.POST)
+    @ResponseBody
+    public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
+        final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
+        if ("SUCCESS".equals(notifyResult.getResultCode())) {
+
+            BigDecimal wxbigDecimal = new BigDecimal(notifyResult.getTotalFee());
+
+            BigDecimal bai = new BigDecimal(100);
+
+            String orderId = notifyResult.getOutTradeNo();
+
+            portalOrderService.updateOrderSnSuccess(orderId, wxbigDecimal.divide(bai, 2, BigDecimal.ROUND_UP));
+
+            return WxPayNotifyResponse.success("成功");
+        }
+        return WxPayNotifyResponse.success("成功");
+    }
+
+
+    @ApiOperation("用户支付成功的回调(不需要支付直接成功接口)")
     @RequestMapping(value = "/paySuccess", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult paySuccess(@RequestParam Long orderId, @RequestParam Integer payType) {

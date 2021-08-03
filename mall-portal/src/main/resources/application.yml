@@ -2,7 +2,7 @@ spring:
   application:
     name: mall-portal
   profiles:
-    active: dev #默认为开发环境
+    active: prod #默认为开发环境
 
 mybatis:
   configuration:
@@ -34,6 +34,7 @@ secure:
       - /actuator/**
       - /sso/**
       - /home/**
+      - /order/wxpaySucces
       - /product/**
       - /brand/**
       - /doc.html
@@ -68,9 +69,9 @@ wx:
 
 
   pay:
-    appId:
-    mchId:
-    mchKey:
+    appId: wx1ba7d5fb1e82cc58
+    mchId: 33333
+    mchKey: 6666
     subAppId: #服务商模式下的子商户公众账号ID
     subMchId: #服务商模式下的子商户号
     keyPath: classpath:/key/apiclient_cert.p12

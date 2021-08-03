@@ -52,7 +52,7 @@ public class MinioController {
                     .build();
             boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(BUCKET_NAME).build());
             if (isExist) {
-                LOGGER.info("存储桶已经存在！");
+                //  LOGGER.info("存储桶已经存在！");
             } else {
                 //创建存储桶并设置只读权限
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(BUCKET_NAME).build());
@@ -66,7 +66,8 @@ public class MinioController {
             String filename = file.getOriginalFilename();
             //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             // 设置存储对象名称
-            String objectName = IdUtil.simpleUUID() + "/" + filename;
+            String objectName = "wxUpload" + "/" + IdUtil.simpleUUID() + "/" + filename;
+           // LOGGER.info(objectName);
             // 使用putObject上传一个文件到存储桶中
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(BUCKET_NAME)
@@ -74,7 +75,7 @@ public class MinioController {
                     .contentType(file.getContentType())
                     .stream(file.getInputStream(), file.getSize(), ObjectWriteArgs.MIN_MULTIPART_SIZE).build();
             minioClient.putObject(putObjectArgs);
-            LOGGER.info("文件上传成功!");
+            // LOGGER.info("文件上传成功!");
             MinioUploadDto minioUploadDto = new MinioUploadDto();
             minioUploadDto.setName(filename);
             minioUploadDto.setUrl(url + "/" + BUCKET_NAME + "/" + objectName);

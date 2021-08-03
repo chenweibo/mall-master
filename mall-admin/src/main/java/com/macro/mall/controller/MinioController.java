@@ -70,7 +70,8 @@ public class MinioController {
             String filename = file.getOriginalFilename();
             //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             // 设置存储对象名称
-            String objectName = IdUtil.simpleUUID() + "/" + filename;
+            String objectName = "adminUpload" + "/" + IdUtil.simpleUUID() + "/" + filename;
+            //LOGGER.info(objectName);
             // 使用putObject上传一个文件到存储桶中
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(BUCKET_NAME)
