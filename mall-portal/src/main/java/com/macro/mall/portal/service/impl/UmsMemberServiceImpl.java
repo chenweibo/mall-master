@@ -7,6 +7,7 @@ import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
 import com.macro.mall.model.UmsMemberLevel;
 import com.macro.mall.model.UmsMemberLevelExample;
+import com.macro.mall.portal.dao.MemberDao;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.UmsMemberCacheService;
 import com.macro.mall.portal.service.UmsMemberService;
@@ -45,6 +46,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private UmsMemberMapper memberMapper;
     @Autowired
     private UmsMemberLevelMapper memberLevelMapper;
+    @Autowired
+    private MemberDao memberDao;
+
     @Autowired
     private UmsMemberCacheService memberCacheService;
     @Value("${redis.key.authCode}")
@@ -216,7 +220,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         String token = null;
         Map<String, Object> res = new HashMap<>();
 
-        UmsMember umsMember = memberMapper.selectByPhone(phone);
+        UmsMember umsMember = memberDao.selectByPhone(phone);
         if (umsMember == null) {
             UmsMember newUmsMember = this.wxRegister(phone, openid);
             System.out.println(newUmsMember.toString());

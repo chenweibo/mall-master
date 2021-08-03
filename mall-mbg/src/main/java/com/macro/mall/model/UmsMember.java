@@ -1,12 +1,9 @@
 package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
-@Data
 public class UmsMember implements Serializable {
     private Long id;
 
@@ -17,9 +14,6 @@ public class UmsMember implements Serializable {
 
     @ApiModelProperty(value = "密码")
     private String password;
-
-    @ApiModelProperty(value = "微信小程序openid")
-    private String openid;
 
     @ApiModelProperty(value = "昵称")
     private String nickname;
@@ -66,6 +60,9 @@ public class UmsMember implements Serializable {
     @ApiModelProperty(value = "历史积分数量")
     private Integer historyIntegration;
 
+    @ApiModelProperty(value = "微信小程序凭证")
+    private String openid;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -87,7 +84,6 @@ public class UmsMember implements Serializable {
     public String getUsername() {
         return username;
     }
-
 
     public void setUsername(String username) {
         this.username = username;
@@ -221,6 +217,14 @@ public class UmsMember implements Serializable {
         this.historyIntegration = historyIntegration;
     }
 
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -246,6 +250,7 @@ public class UmsMember implements Serializable {
         sb.append(", growth=").append(growth);
         sb.append(", luckeyCount=").append(luckeyCount);
         sb.append(", historyIntegration=").append(historyIntegration);
+        sb.append(", openid=").append(openid);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

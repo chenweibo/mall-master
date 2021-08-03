@@ -2,9 +2,7 @@ package com.macro.mall.mapper;
 
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface UmsMemberMapper {
@@ -21,8 +19,6 @@ public interface UmsMemberMapper {
     List<UmsMember> selectByExample(UmsMemberExample example);
 
     UmsMember selectByPrimaryKey(Long id);
-
-    UmsMember selectByPhone(String phone);
 
     int updateByExampleSelective(@Param("record") UmsMember record, @Param("example") UmsMemberExample example);
 

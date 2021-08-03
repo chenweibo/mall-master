@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.portal.dao.PortalProductDao;
+import com.macro.mall.portal.dao.ProductAttributeDao;
 import com.macro.mall.portal.domain.PmsPortalProductDetail;
 import com.macro.mall.portal.domain.PmsProductCategoryNode;
 import com.macro.mall.portal.service.PmsPortalProductService;
@@ -39,6 +40,9 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
     private PmsProductFullReductionMapper productFullReductionMapper;
     @Autowired
     private PortalProductDao portalProductDao;
+
+    @Autowired
+    private ProductAttributeDao productAttributeDao;
 
     @Override
     public List<PmsProduct> search(String keyword, Long brandId, Long productCategoryId, Integer pageNum, Integer pageSize, Integer sort) {
@@ -124,7 +128,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
         //商品可用优惠券
         result.setCouponList(portalProductDao.getAvailableCouponList(product.getId(), product.getProductCategoryId()));
         System.out.println(product.getProductAttributeCategoryId());
-        result.setSpec_list(productAttributeMapper.getLstByIdAndType(product.getProductAttributeCategoryId()));
+        result.setSpec_list(productAttributeDao.getLstByIdAndType(product.getProductAttributeCategoryId()));
         return result;
     }
 

@@ -12,7 +12,9 @@
     <result column="sale" jdbcType="INTEGER" property="sale" />
     <result column="promotion_price" jdbcType="DECIMAL" property="promotionPrice" />
     <result column="lock_stock" jdbcType="INTEGER" property="lockStock" />
-    <result column="sp_data" jdbcType="VARCHAR" property="spData" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.PmsSkuStock">
+    <result column="sp_data" jdbcType="LONGVARCHAR" property="spData" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,9 +75,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, sku_code, price, stock, low_stock, pic, sale, promotion_price, lock_stock, 
+    id, product_id, sku_code, price, stock, low_stock, pic, sale, promotion_price, lock_stock
+  </sql>
+  <sql id="Blob_Column_List">
     sp_data
   </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.PmsSkuStockExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pms_sku_stock
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.macro.mall.model.PmsSkuStockExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -90,9 +110,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from pms_sku_stock
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -117,7 +139,7 @@
     values (#{productId,jdbcType=BIGINT}, #{skuCode,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{stock,jdbcType=INTEGER}, #{lowStock,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR}, 
       #{sale,jdbcType=INTEGER}, #{promotionPrice,jdbcType=DECIMAL}, #{lockStock,jdbcType=INTEGER}, 
-      #{spData,jdbcType=VARCHAR})
+      #{spData,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.PmsSkuStock">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -185,7 +207,7 @@
         #{lockStock,jdbcType=INTEGER},
       </if>
       <if test="spData != null">
-        #{spData,jdbcType=VARCHAR},
+        #{spData,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -229,9 +251,26 @@
         lock_stock = #{record.lockStock,jdbcType=INTEGER},
       </if>
       <if test="record.spData != null">
-        sp_data = #{record.spData,jdbcType=VARCHAR},
+        sp_data = #{record.spData,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update pms_sku_stock
+    set id = #{record.id,jdbcType=BIGINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      sku_code = #{record.skuCode,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      stock = #{record.stock,jdbcType=INTEGER},
+      low_stock = #{record.lowStock,jdbcType=INTEGER},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      sale = #{record.sale,jdbcType=INTEGER},
+      promotion_price = #{record.promotionPrice,jdbcType=DECIMAL},
+      lock_stock = #{record.lockStock,jdbcType=INTEGER},
+      sp_data = #{record.spData,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -247,8 +286,7 @@
       pic = #{record.pic,jdbcType=VARCHAR},
       sale = #{record.sale,jdbcType=INTEGER},
       promotion_price = #{record.promotionPrice,jdbcType=DECIMAL},
-      lock_stock = #{record.lockStock,jdbcType=INTEGER},
-      sp_data = #{record.spData,jdbcType=VARCHAR}
+      lock_stock = #{record.lockStock,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -284,9 +322,23 @@
         lock_stock = #{lockStock,jdbcType=INTEGER},
       </if>
       <if test="spData != null">
-        sp_data = #{spData,jdbcType=VARCHAR},
+        sp_data = #{spData,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.PmsSkuStock">
+    update pms_sku_stock
+    set product_id = #{productId,jdbcType=BIGINT},
+      sku_code = #{skuCode,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=INTEGER},
+      low_stock = #{lowStock,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR},
+      sale = #{sale,jdbcType=INTEGER},
+      promotion_price = #{promotionPrice,jdbcType=DECIMAL},
+      lock_stock = #{lockStock,jdbcType=INTEGER},
+      sp_data = #{spData,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsSkuStock">
@@ -299,8 +351,7 @@
       pic = #{pic,jdbcType=VARCHAR},
       sale = #{sale,jdbcType=INTEGER},
       promotion_price = #{promotionPrice,jdbcType=DECIMAL},
-      lock_stock = #{lockStock,jdbcType=INTEGER},
-      sp_data = #{spData,jdbcType=VARCHAR}
+      lock_stock = #{lockStock,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

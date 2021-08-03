@@ -16,15 +16,21 @@ public interface PmsProductAttributeValueMapper {
 
     int insertSelective(PmsProductAttributeValue record);
 
+    List<PmsProductAttributeValue> selectByExampleWithBLOBs(PmsProductAttributeValueExample example);
+
     List<PmsProductAttributeValue> selectByExample(PmsProductAttributeValueExample example);
 
     PmsProductAttributeValue selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsProductAttributeValue record, @Param("example") PmsProductAttributeValueExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") PmsProductAttributeValue record, @Param("example") PmsProductAttributeValueExample example);
+
     int updateByExample(@Param("record") PmsProductAttributeValue record, @Param("example") PmsProductAttributeValueExample example);
 
     int updateByPrimaryKeySelective(PmsProductAttributeValue record);
+
+    int updateByPrimaryKeyWithBLOBs(PmsProductAttributeValue record);
 
     int updateByPrimaryKey(PmsProductAttributeValue record);
 }

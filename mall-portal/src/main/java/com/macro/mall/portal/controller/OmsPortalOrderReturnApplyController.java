@@ -4,6 +4,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.OmsOrderReturnReasonMapper;
 import com.macro.mall.model.OmsOrderReturnApply;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.dao.PortalOrderReturnReasonDao;
 import com.macro.mall.portal.domain.OmsOrderReturnApplyParam;
 import com.macro.mall.portal.service.OmsPortalOrderReturnApplyService;
 import com.macro.mall.portal.service.OmsPortalOrderService;
@@ -32,6 +33,9 @@ public class OmsPortalOrderReturnApplyController {
     private OmsPortalOrderService portalOrderService;
     @Autowired
     private OmsOrderReturnReasonMapper omsOrderReturnReasonMapper;
+
+    @Autowired
+    private PortalOrderReturnReasonDao portalOrderReturnReasonDao;
 
     @ApiOperation("申请退货")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -68,7 +72,7 @@ public class OmsPortalOrderReturnApplyController {
     @ResponseBody
     public CommonResult reason() {
 
-        return CommonResult.success(omsOrderReturnReasonMapper.selectMapList());
+        return CommonResult.success(portalOrderReturnReasonDao.selectMapList());
     }
 
 

@@ -16,15 +16,21 @@ public interface PmsSkuStockMapper {
 
     int insertSelective(PmsSkuStock record);
 
+    List<PmsSkuStock> selectByExampleWithBLOBs(PmsSkuStockExample example);
+
     List<PmsSkuStock> selectByExample(PmsSkuStockExample example);
 
     PmsSkuStock selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") PmsSkuStock record, @Param("example") PmsSkuStockExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") PmsSkuStock record, @Param("example") PmsSkuStockExample example);
+
     int updateByExample(@Param("record") PmsSkuStock record, @Param("example") PmsSkuStockExample example);
 
     int updateByPrimaryKeySelective(PmsSkuStock record);
+
+    int updateByPrimaryKeyWithBLOBs(PmsSkuStock record);
 
     int updateByPrimaryKey(PmsSkuStock record);
 }

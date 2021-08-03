@@ -5,7 +5,9 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="product_attribute_id" jdbcType="BIGINT" property="productAttributeId" />
-    <result column="value" jdbcType="VARCHAR" property="value" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.PmsProductAttributeValue">
+    <result column="value" jdbcType="LONGVARCHAR" property="value" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,8 +68,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, product_attribute_id, value
+    id, product_id, product_attribute_id
   </sql>
+  <sql id="Blob_Column_List">
+    value
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.PmsProductAttributeValueExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pms_product_attribute_value
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.macro.mall.model.PmsProductAttributeValueExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -82,9 +103,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from pms_product_attribute_value
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -104,7 +127,7 @@
     </selectKey>
     insert into pms_product_attribute_value (product_id, product_attribute_id, value
       )
-    values (#{productId,jdbcType=BIGINT}, #{productAttributeId,jdbcType=BIGINT}, #{value,jdbcType=VARCHAR}
+    values (#{productId,jdbcType=BIGINT}, #{productAttributeId,jdbcType=BIGINT}, #{value,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.PmsProductAttributeValue">
@@ -131,7 +154,7 @@
         #{productAttributeId,jdbcType=BIGINT},
       </if>
       <if test="value != null">
-        #{value,jdbcType=VARCHAR},
+        #{value,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -154,9 +177,19 @@
         product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT},
       </if>
       <if test="record.value != null">
-        value = #{record.value,jdbcType=VARCHAR},
+        value = #{record.value,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update pms_product_attribute_value
+    set id = #{record.id,jdbcType=BIGINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT},
+      value = #{record.value,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -165,8 +198,7 @@
     update pms_product_attribute_value
     set id = #{record.id,jdbcType=BIGINT},
       product_id = #{record.productId,jdbcType=BIGINT},
-      product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT},
-      value = #{record.value,jdbcType=VARCHAR}
+      product_attribute_id = #{record.productAttributeId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -181,16 +213,22 @@
         product_attribute_id = #{productAttributeId,jdbcType=BIGINT},
       </if>
       <if test="value != null">
-        value = #{value,jdbcType=VARCHAR},
+        value = #{value,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.PmsProductAttributeValue">
+    update pms_product_attribute_value
+    set product_id = #{productId,jdbcType=BIGINT},
+      product_attribute_id = #{productAttributeId,jdbcType=BIGINT},
+      value = #{value,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsProductAttributeValue">
     update pms_product_attribute_value
     set product_id = #{productId,jdbcType=BIGINT},
-      product_attribute_id = #{productAttributeId,jdbcType=BIGINT},
-      value = #{value,jdbcType=VARCHAR}
+      product_attribute_id = #{productAttributeId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
