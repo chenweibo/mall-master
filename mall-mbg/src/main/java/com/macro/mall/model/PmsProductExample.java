@@ -2435,6 +2435,76 @@ public class PmsProductExample {
             addCriterion("product_category_name not between", value1, value2, "productCategoryName");
             return (Criteria) this;
         }
+
+        public Criteria andCreateNameIsNull() {
+            addCriterion("create_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameIsNotNull() {
+            addCriterion("create_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameEqualTo(String value) {
+            addCriterion("create_name =", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameNotEqualTo(String value) {
+            addCriterion("create_name <>", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameGreaterThan(String value) {
+            addCriterion("create_name >", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameGreaterThanOrEqualTo(String value) {
+            addCriterion("create_name >=", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameLessThan(String value) {
+            addCriterion("create_name <", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameLessThanOrEqualTo(String value) {
+            addCriterion("create_name <=", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameLike(String value) {
+            addCriterion("create_name like", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameNotLike(String value) {
+            addCriterion("create_name not like", value, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameIn(List<String> values) {
+            addCriterion("create_name in", values, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameNotIn(List<String> values) {
+            addCriterion("create_name not in", values, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameBetween(String value1, String value2) {
+            addCriterion("create_name between", value1, value2, "createName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateNameNotBetween(String value1, String value2) {
+            addCriterion("create_name not between", value1, value2, "createName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

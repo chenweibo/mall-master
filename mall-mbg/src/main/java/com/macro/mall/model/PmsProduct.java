@@ -106,6 +106,9 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "商品分类名称")
     private String productCategoryName;
 
+    @ApiModelProperty(value = "创建用户")
+    private String createName;
+
     @ApiModelProperty(value = "商品描述")
     private String description;
 
@@ -418,6 +421,14 @@ public class PmsProduct implements Serializable {
         this.productCategoryName = productCategoryName;
     }
 
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -501,6 +512,7 @@ public class PmsProduct implements Serializable {
         sb.append(", promotionType=").append(promotionType);
         sb.append(", brandName=").append(brandName);
         sb.append(", productCategoryName=").append(productCategoryName);
+        sb.append(", createName=").append(createName);
         sb.append(", description=").append(description);
         sb.append(", albumPics=").append(albumPics);
         sb.append(", detailDesc=").append(detailDesc);

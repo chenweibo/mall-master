@@ -35,6 +35,11 @@ public class AdminUserDetails implements UserDetails {
         return umsAdmin.getPassword();
     }
 
+
+    public UmsAdmin getAdmin() {
+        return umsAdmin;
+    }
+
     @Override
     public String getUsername() {
         return umsAdmin.getUsername();

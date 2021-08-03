@@ -3,6 +3,7 @@ package com.macro.mall.service;
 import com.macro.mall.dto.UmsAdminParam;
 import com.macro.mall.dto.UpdateAdminPasswordParam;
 import com.macro.mall.model.UmsAdmin;
+import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsResource;
 import com.macro.mall.model.UmsRole;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,8 @@ public interface UmsAdminService {
      * 注册功能
      */
     UmsAdmin register(UmsAdminParam umsAdminParam);
+
+    UmsAdmin getCurrentMember();
 
     /**
      * 登录功能

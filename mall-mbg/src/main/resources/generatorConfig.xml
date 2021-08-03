@@ -29,7 +29,7 @@
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
-
+        <!--路径 win下面 \ MAC下 /-->
         <javaModelGenerator targetPackage="com.macro.mall.model" targetProject="mall-mbg/src/main/java"/>
 
         <sqlMapGenerator targetPackage="com.macro.mall.mapper" targetProject="mall-mbg/src/main/resources"/>

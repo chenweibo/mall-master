@@ -9,6 +9,7 @@ import com.macro.mall.dto.PmsProductResult;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.PmsProductService;
+import com.macro.mall.service.UmsAdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,14 +65,18 @@ public class PmsProductServiceImpl implements PmsProductService {
     private PmsProductDao productDao;
     @Autowired
     private PmsProductVertifyRecordDao productVertifyRecordDao;
+    @Autowired
+    private UmsAdminService adminService;
 
     @Override
     public int create(PmsProductParam productParam) {
         int count;
         //创建商品
         PmsProduct product = productParam;
+        product.setCreateName(adminService.getCurrentMember().getNickName());
         product.setId(null);
         productMapper.insertSelective(product);
+
         //根据促销类型设置价格：会员价格、阶梯价格、满减价格
         Long productId = product.getId();
         //会员价格
@@ -90,6 +95,7 @@ public class PmsProductServiceImpl implements PmsProductService {
         relateAndInsertList(subjectProductRelationDao, productParam.getSubjectProductRelationList(), productId);
         //关联优选
         relateAndInsertList(prefrenceAreaProductRelationDao, productParam.getPrefrenceAreaProductRelationList(), productId);
+
         count = 1;
         return count;
     }
