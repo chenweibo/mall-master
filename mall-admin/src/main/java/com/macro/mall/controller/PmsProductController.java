@@ -43,6 +43,7 @@ public class PmsProductController {
     @ResponseBody
     public CommonResult<PmsProductResult> getUpdateInfo(@PathVariable Long id) {
         PmsProductResult productResult = productService.getUpdateInfo(id);
+       // System.out.print(productResult.toString());
         return CommonResult.success(productResult);
     }
 

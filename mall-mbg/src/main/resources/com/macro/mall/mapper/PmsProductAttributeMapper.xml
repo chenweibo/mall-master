@@ -13,6 +13,7 @@
     <result column="related_status" jdbcType="INTEGER" property="relatedStatus" />
     <result column="hand_add_status" jdbcType="INTEGER" property="handAddStatus" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="input_list" jdbcType="VARCHAR" property="inputList" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.PmsProductAttribute">
     <result column="input_list" jdbcType="LONGVARCHAR" property="inputList" />
