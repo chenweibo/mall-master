@@ -34,6 +34,6 @@ public class PmsPortalProductDetail {
 
     @ApiModelProperty("商品可用优惠券")
     private
-    List<Map<String, Object>> spec_list;
+    List<SkuFa> spec_list;
 
 }

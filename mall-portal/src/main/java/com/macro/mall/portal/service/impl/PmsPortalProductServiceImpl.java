@@ -9,12 +9,13 @@ import com.macro.mall.portal.dao.PortalProductDao;
 import com.macro.mall.portal.dao.ProductAttributeDao;
 import com.macro.mall.portal.domain.PmsPortalProductDetail;
 import com.macro.mall.portal.domain.PmsProductCategoryNode;
+import com.macro.mall.portal.domain.SkuFa;
 import com.macro.mall.portal.service.PmsPortalProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -76,6 +77,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
     @Override
     public List<PmsProductCategoryNode> categoryTreeList() {
         PmsProductCategoryExample example = new PmsProductCategoryExample();
+        example.setOrderByClause("sort asc");
         List<PmsProductCategory> allList = productCategoryMapper.selectByExample(example);
         List<PmsProductCategoryNode> result = allList.stream()
                 .filter(item -> item.getParentId().equals(0L))
@@ -127,9 +129,47 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
         }
         //商品可用优惠券
         result.setCouponList(portalProductDao.getAvailableCouponList(product.getId(), product.getProductCategoryId()));
-        System.out.println(product.getProductAttributeCategoryId());
-        result.setSpec_list(productAttributeDao.getLstByIdAndType(product.getProductAttributeCategoryId()));
+        //System.out.println(product.getProductAttributeCategoryId());
+        result.setSpec_list(this.handleAttributeList(productAttributeList, result.getProductAttributeValueList()));
         return result;
+    }
+
+    private List<SkuFa> handleAttributeList(List<PmsProductAttribute> list, List<PmsProductAttributeValue> v) {
+        List<SkuFa> res = new ArrayList<SkuFa>();
+
+        if (CollUtil.isEmpty(v)) {
+            for (PmsProductAttribute item : list
+            ) {
+                if (item.getType().equals(0)) {
+                    SkuFa m = new SkuFa();
+                    m.setName(item.getName());
+                    m.setSort(item.getSort());
+                    m.setInput_list(item.getInputList());
+
+                    res.add(m);
+                }
+            }
+
+            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort).reversed()).collect(Collectors.toList());
+            return res;
+        } else {
+
+            for (PmsProductAttributeValue item : v
+            ) {
+                PmsProductAttribute q = list.stream().filter(d -> d.getId().equals(item.getProductAttributeId())).collect(Collectors.toList()).get(0);
+                SkuFa m = new SkuFa();
+                m.setName(q.getName());
+                m.setSort(q.getSort());
+                m.setInput_list(item.getValue());
+                res.add(m);
+
+            }
+
+            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort).reversed()).collect(Collectors.toList());
+            return res;
+        }
+
+
     }
 
 

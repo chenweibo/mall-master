@@ -38,12 +38,13 @@ public class PmsProductCategoryController {
         }
     }
 
+
     @ApiOperation("修改商品分类")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@PathVariable Long id,
-                         @Validated
-                         @RequestBody PmsProductCategoryParam productCategoryParam) {
+                               @Validated
+                               @RequestBody PmsProductCategoryParam productCategoryParam) {
         int count = productCategoryService.update(id, productCategoryParam);
         if (count > 0) {
             return CommonResult.success(count);
@@ -68,6 +69,15 @@ public class PmsProductCategoryController {
     public CommonResult<PmsProductCategory> getItem(@PathVariable Long id) {
         PmsProductCategory productCategory = productCategoryService.getItem(id);
         return CommonResult.success(productCategory);
+    }
+
+    @ApiOperation("转移产品")
+    @RequestMapping(value = "/move", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult moveProduct(@RequestParam(value = "from") Integer from,
+                                    @RequestParam(value = "to") Integer to) {
+
+        return CommonResult.success("");
     }
 
     @ApiOperation("删除商品分类")

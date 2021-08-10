@@ -16,6 +16,9 @@ public class PmsProductAttribute implements Serializable {
     @ApiModelProperty(value = "属性录入方式：0->手工录入；1->从列表中选取")
     private Integer inputType;
 
+    @ApiModelProperty(value = "可选值列表，以逗号隔开")
+    private String inputList;
+
     @ApiModelProperty(value = "排序字段：最高的可以单独上传图片")
     private Integer sort;
 
@@ -33,9 +36,6 @@ public class PmsProductAttribute implements Serializable {
 
     @ApiModelProperty(value = "属性的类型；0->规格；1->参数")
     private Integer type;
-
-    @ApiModelProperty(value = "可选值列表，以逗号隔开")
-    private String inputList;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,6 +77,14 @@ public class PmsProductAttribute implements Serializable {
 
     public void setInputType(Integer inputType) {
         this.inputType = inputType;
+    }
+
+    public String getInputList() {
+        return inputList;
+    }
+
+    public void setInputList(String inputList) {
+        this.inputList = inputList;
     }
 
     public Integer getSort() {
@@ -127,14 +135,6 @@ public class PmsProductAttribute implements Serializable {
         this.type = type;
     }
 
-    public String getInputList() {
-        return inputList;
-    }
-
-    public void setInputList(String inputList) {
-        this.inputList = inputList;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -146,13 +146,13 @@ public class PmsProductAttribute implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", selectType=").append(selectType);
         sb.append(", inputType=").append(inputType);
+        sb.append(", inputList=").append(inputList);
         sb.append(", sort=").append(sort);
         sb.append(", filterType=").append(filterType);
         sb.append(", searchType=").append(searchType);
         sb.append(", relatedStatus=").append(relatedStatus);
         sb.append(", handAddStatus=").append(handAddStatus);
         sb.append(", type=").append(type);
-        sb.append(", inputList=").append(inputList);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

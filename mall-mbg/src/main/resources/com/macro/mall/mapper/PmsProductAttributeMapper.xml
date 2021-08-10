@@ -7,16 +7,13 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="select_type" jdbcType="INTEGER" property="selectType" />
     <result column="input_type" jdbcType="INTEGER" property="inputType" />
+    <result column="input_list" jdbcType="VARCHAR" property="inputList" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="filter_type" jdbcType="INTEGER" property="filterType" />
     <result column="search_type" jdbcType="INTEGER" property="searchType" />
     <result column="related_status" jdbcType="INTEGER" property="relatedStatus" />
     <result column="hand_add_status" jdbcType="INTEGER" property="handAddStatus" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="input_list" jdbcType="VARCHAR" property="inputList" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.PmsProductAttribute">
-    <result column="input_list" jdbcType="LONGVARCHAR" property="inputList" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,28 +74,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_attribute_category_id, name, select_type, input_type, sort, filter_type, 
-    search_type, related_status, hand_add_status, type
+    id, product_attribute_category_id, name, select_type, input_type, input_list, sort, 
+    filter_type, search_type, related_status, hand_add_status, type
   </sql>
-  <sql id="Blob_Column_List">
-    input_list
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.PmsProductAttributeExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from pms_product_attribute
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.macro.mall.model.PmsProductAttributeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -113,11 +91,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from pms_product_attribute
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -132,26 +108,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.macro.mall.model.PmsProductAttribute">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into pms_product_attribute (product_attribute_category_id, name, 
-      select_type, input_type, sort, 
-      filter_type, search_type, related_status, 
-      hand_add_status, type, input_list
+    insert into pms_product_attribute (id, product_attribute_category_id, name, 
+      select_type, input_type, input_list, 
+      sort, filter_type, search_type, 
+      related_status, hand_add_status, type
       )
-    values (#{productAttributeCategoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{selectType,jdbcType=INTEGER}, #{inputType,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
-      #{filterType,jdbcType=INTEGER}, #{searchType,jdbcType=INTEGER}, #{relatedStatus,jdbcType=INTEGER}, 
-      #{handAddStatus,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{inputList,jdbcType=LONGVARCHAR}
+    values (#{id,jdbcType=BIGINT}, #{productAttributeCategoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{selectType,jdbcType=INTEGER}, #{inputType,jdbcType=INTEGER}, #{inputList,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{filterType,jdbcType=INTEGER}, #{searchType,jdbcType=INTEGER}, 
+      #{relatedStatus,jdbcType=INTEGER}, #{handAddStatus,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.PmsProductAttribute">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into pms_product_attribute
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="productAttributeCategoryId != null">
         product_attribute_category_id,
       </if>
@@ -163,6 +136,9 @@
       </if>
       <if test="inputType != null">
         input_type,
+      </if>
+      <if test="inputList != null">
+        input_list,
       </if>
       <if test="sort != null">
         sort,
@@ -182,11 +158,11 @@
       <if test="type != null">
         type,
       </if>
-      <if test="inputList != null">
-        input_list,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="productAttributeCategoryId != null">
         #{productAttributeCategoryId,jdbcType=BIGINT},
       </if>
@@ -198,6 +174,9 @@
       </if>
       <if test="inputType != null">
         #{inputType,jdbcType=INTEGER},
+      </if>
+      <if test="inputList != null">
+        #{inputList,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
@@ -216,9 +195,6 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
-      </if>
-      <if test="inputList != null">
-        #{inputList,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -246,6 +222,9 @@
       <if test="record.inputType != null">
         input_type = #{record.inputType,jdbcType=INTEGER},
       </if>
+      <if test="record.inputList != null">
+        input_list = #{record.inputList,jdbcType=VARCHAR},
+      </if>
       <if test="record.sort != null">
         sort = #{record.sort,jdbcType=INTEGER},
       </if>
@@ -264,28 +243,7 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.inputList != null">
-        input_list = #{record.inputList,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update pms_product_attribute
-    set id = #{record.id,jdbcType=BIGINT},
-      product_attribute_category_id = #{record.productAttributeCategoryId,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      select_type = #{record.selectType,jdbcType=INTEGER},
-      input_type = #{record.inputType,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=INTEGER},
-      filter_type = #{record.filterType,jdbcType=INTEGER},
-      search_type = #{record.searchType,jdbcType=INTEGER},
-      related_status = #{record.relatedStatus,jdbcType=INTEGER},
-      hand_add_status = #{record.handAddStatus,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      input_list = #{record.inputList,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -297,6 +255,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       select_type = #{record.selectType,jdbcType=INTEGER},
       input_type = #{record.inputType,jdbcType=INTEGER},
+      input_list = #{record.inputList,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER},
       filter_type = #{record.filterType,jdbcType=INTEGER},
       search_type = #{record.searchType,jdbcType=INTEGER},
@@ -322,6 +281,9 @@
       <if test="inputType != null">
         input_type = #{inputType,jdbcType=INTEGER},
       </if>
+      <if test="inputList != null">
+        input_list = #{inputList,jdbcType=VARCHAR},
+      </if>
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
@@ -340,25 +302,7 @@
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="inputList != null">
-        input_list = #{inputList,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.PmsProductAttribute">
-    update pms_product_attribute
-    set product_attribute_category_id = #{productAttributeCategoryId,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
-      select_type = #{selectType,jdbcType=INTEGER},
-      input_type = #{inputType,jdbcType=INTEGER},
-      sort = #{sort,jdbcType=INTEGER},
-      filter_type = #{filterType,jdbcType=INTEGER},
-      search_type = #{searchType,jdbcType=INTEGER},
-      related_status = #{relatedStatus,jdbcType=INTEGER},
-      hand_add_status = #{handAddStatus,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      input_list = #{inputList,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.PmsProductAttribute">
@@ -367,6 +311,7 @@
       name = #{name,jdbcType=VARCHAR},
       select_type = #{selectType,jdbcType=INTEGER},
       input_type = #{inputType,jdbcType=INTEGER},
+      input_list = #{inputList,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
       filter_type = #{filterType,jdbcType=INTEGER},
       search_type = #{searchType,jdbcType=INTEGER},

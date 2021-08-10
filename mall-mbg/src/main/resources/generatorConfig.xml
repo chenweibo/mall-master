@@ -14,7 +14,7 @@
         <!-- 为生成的Java模型创建一个toString方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--生成mapper.xml时覆盖原文件-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <commentGenerator type="com.macro.mall.CommentGenerator">
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
@@ -27,7 +27,7 @@
                         userId="${jdbc.userId}"
                         password="${jdbc.password}">
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
-            <property name="nullCatalogMeansCurrent" value="true" />
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
         <!--路径 win下面 \ MAC下 /-->
         <javaModelGenerator targetPackage="com.macro.mall.model" targetProject="mall-mbg/src/main/java"/>
@@ -41,5 +41,18 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <table tableName="pms_product">
+            <columnOverride column="album_pics" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="pms_product_attribute">
+            <columnOverride column="input_list" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+
+        <table tableName="pms_product_attribute_value">
+            <columnOverride column="value" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
+        <table tableName="pms_sku_stock">
+            <columnOverride column="sp_data" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </table>
     </context>
 </generatorConfiguration>

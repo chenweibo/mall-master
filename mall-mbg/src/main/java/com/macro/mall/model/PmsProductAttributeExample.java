@@ -414,6 +414,76 @@ public class PmsProductAttributeExample {
             return (Criteria) this;
         }
 
+        public Criteria andInputListIsNull() {
+            addCriterion("input_list is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListIsNotNull() {
+            addCriterion("input_list is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListEqualTo(String value) {
+            addCriterion("input_list =", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListNotEqualTo(String value) {
+            addCriterion("input_list <>", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListGreaterThan(String value) {
+            addCriterion("input_list >", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListGreaterThanOrEqualTo(String value) {
+            addCriterion("input_list >=", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListLessThan(String value) {
+            addCriterion("input_list <", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListLessThanOrEqualTo(String value) {
+            addCriterion("input_list <=", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListLike(String value) {
+            addCriterion("input_list like", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListNotLike(String value) {
+            addCriterion("input_list not like", value, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListIn(List<String> values) {
+            addCriterion("input_list in", values, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListNotIn(List<String> values) {
+            addCriterion("input_list not in", values, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListBetween(String value1, String value2) {
+            addCriterion("input_list between", value1, value2, "inputList");
+            return (Criteria) this;
+        }
+
+        public Criteria andInputListNotBetween(String value1, String value2) {
+            addCriterion("input_list not between", value1, value2, "inputList");
+            return (Criteria) this;
+        }
+
         public Criteria andSortIsNull() {
             addCriterion("sort is null");
             return (Criteria) this;
