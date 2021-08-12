@@ -46,6 +46,10 @@ public interface PmsProductCategoryService {
      */
     int updateNavStatus(List<Long> ids, Integer navStatus);
 
+
+    @Transactional
+    int move(Long from, Long to);
+
     /**
      * 批量修改显示状态
      */

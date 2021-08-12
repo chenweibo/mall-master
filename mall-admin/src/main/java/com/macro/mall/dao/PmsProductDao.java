@@ -13,4 +13,7 @@ public interface PmsProductDao {
      * 获取商品编辑信息
      */
     PmsProductResult getUpdateInfo(@Param("id") Long id);
+
+
+    int updateProductCategoryId(@Param("from") Long from, @Param("to") Long to, @Param("name") String name);
 }

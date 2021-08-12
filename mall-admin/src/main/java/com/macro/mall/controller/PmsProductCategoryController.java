@@ -74,10 +74,10 @@ public class PmsProductCategoryController {
     @ApiOperation("转移产品")
     @RequestMapping(value = "/move", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult moveProduct(@RequestParam(value = "from") Integer from,
-                                    @RequestParam(value = "to") Integer to) {
+    public CommonResult moveProduct(@RequestParam(value = "from") Long from,
+                                    @RequestParam(value = "to") Long to) {
 
-        return CommonResult.success("");
+        return CommonResult.success(productCategoryService.move(from, to));
     }
 
     @ApiOperation("删除商品分类")

@@ -3,6 +3,7 @@ package com.macro.mall.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.dao.PmsProductCategoryAttributeRelationDao;
 import com.macro.mall.dao.PmsProductCategoryDao;
+import com.macro.mall.dao.PmsProductDao;
 import com.macro.mall.dto.PmsProductCategoryParam;
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
 import com.macro.mall.mapper.PmsProductCategoryAttributeRelationMapper;
@@ -34,6 +35,8 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
     private PmsProductCategoryAttributeRelationMapper productCategoryAttributeRelationMapper;
     @Autowired
     private PmsProductCategoryDao productCategoryDao;
+    @Autowired
+    private PmsProductDao pmsProductDao;
 
     @Override
     public int create(PmsProductCategoryParam pmsProductCategoryParam) {
@@ -120,6 +123,13 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
         PmsProductCategoryExample example = new PmsProductCategoryExample();
         example.createCriteria().andIdIn(ids);
         return productCategoryMapper.updateByExampleSelective(productCategory, example);
+    }
+
+    @Override
+    public int move(Long from, Long to) {
+        PmsProductCategory productCategory = this.getItem(to);
+
+        return pmsProductDao.updateProductCategoryId(from, to, productCategory.getName());
     }
 
     @Override

@@ -17,6 +17,10 @@
         <collection property="prefrenceAreaProductRelationList" column="{productId=id}" select="selectPrefrenceAreaProductRelationByProductId"/>
 
     </resultMap>
+    <update id="updateProductCategoryId">
+        update pms_product set  product_category_id = #{to,jdbcType=BIGINT},  product_category_name = #{name,jdbcType=VARCHAR}
+        where product_category_id = #{from,jdbcType=BIGINT}
+    </update>
 
     <select id="getUpdateInfo" resultMap="updateInfoMap">
         SELECT *,

@@ -77,8 +77,11 @@ public class PmsProductServiceImpl implements PmsProductService {
         product.setId(null);
         productMapper.insertSelective(product);
 
+
         //根据促销类型设置价格：会员价格、阶梯价格、满减价格
         Long productId = product.getId();
+
+        //System.out.println(productId);
         //会员价格
         relateAndInsertList(memberPriceDao, productParam.getMemberPriceList(), productId);
         //阶梯价格
@@ -322,7 +325,6 @@ public class PmsProductServiceImpl implements PmsProductService {
             if (CollectionUtils.isEmpty(dataList)) {
                 return;
             }
-
             for (Object item : dataList) {
                 Method setId = item.getClass().getMethod("setId", Long.class);
                 setId.invoke(item, (Long) null);

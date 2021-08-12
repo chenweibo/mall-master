@@ -109,7 +109,6 @@ public class PmsProduct implements Serializable {
     @ApiModelProperty(value = "商品分类名称")
     private String productCategoryName;
 
-    @ApiModelProperty(value = "创建用户")
     private String createName;
 
     @ApiModelProperty(value = "商品描述")

@@ -42,16 +42,20 @@
         </table>
 
         <table tableName="pms_product">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="album_pics" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
         <table tableName="pms_product_attribute">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="input_list" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
 
         <table tableName="pms_product_attribute_value">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="value" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
         <table tableName="pms_sku_stock">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="sp_data" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </table>
     </context>
