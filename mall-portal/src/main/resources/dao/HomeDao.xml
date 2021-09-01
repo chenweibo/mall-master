@@ -48,6 +48,24 @@
         LIMIT #{offset}, #{limit};
     </select>
 
+    <select id="getrankingList" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        SELECT *
+        FROM
+            pms_product
+        WHERE  delete_status !=1
+        ORDER BY
+            sale DESC
+            LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getActivityList" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        SELECT *
+        FROM
+            pms_product
+        WHERE promotion_type != 0 and delete_status !=1
+            LIMIT #{offset}, #{limit};
+    </select>
+
     <select id="getHotProductList" resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
         SELECT p.*
         FROM

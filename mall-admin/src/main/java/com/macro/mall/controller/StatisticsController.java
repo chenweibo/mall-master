@@ -1,9 +1,10 @@
 package com.macro.mall.controller;
 
-import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.service.StatisticsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/statistics")
 public class StatisticsController {
 
-    @ApiOperation("分页查询推荐")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @Autowired
+    private StatisticsService statisticsService;
+
+    @ApiOperation("后台统计首页")
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult index() {
 
-        return CommonResult.success("");
+        return CommonResult.success(statisticsService.getAdminStatistics());
     }
 }

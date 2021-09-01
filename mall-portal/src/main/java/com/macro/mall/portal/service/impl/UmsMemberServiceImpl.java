@@ -37,7 +37,9 @@ import java.util.*;
  */
 @Service
 public class UmsMemberServiceImpl implements UmsMemberService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UmsMemberServiceImpl.class);
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -191,7 +193,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Override
     public UserDetails loadUserByPhone(String phone) {
-
 
         throw new UsernameNotFoundException("用户名或密码错误");
     }

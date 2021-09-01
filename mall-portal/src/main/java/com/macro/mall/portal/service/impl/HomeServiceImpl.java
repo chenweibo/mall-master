@@ -47,9 +47,9 @@ public class HomeServiceImpl implements HomeService {
         //获取秒杀信息
         // result.setHomeFlashPromotion(getHomeFlashPromotion());
         //获取新品推荐
-        result.setNewProductList(homeDao.getNewProductList(0, 4));
+        result.setNewProductList(homeDao.getNewProductList(0, 20));
         //获取人气推荐
-        result.setHotProductList(homeDao.getHotProductList(0, 4));
+        result.setHotProductList(homeDao.getHotProductList(0, 20));
         //获取推荐专题
         // result.setSubjectList(homeDao.getRecommendSubjectList(0,4));
         return result;
@@ -98,6 +98,18 @@ public class HomeServiceImpl implements HomeService {
     public List<PmsProduct> newProductList(Integer pageNum, Integer pageSize) {
         int offset = pageSize * (pageNum - 1);
         return homeDao.getNewProductList(offset, pageSize);
+    }
+
+    @Override
+    public List<PmsProduct> rankingList(Integer pageNum, Integer pageSize) {
+        int offset = pageSize * (pageNum - 1);
+        return homeDao.getrankingList(offset, pageSize);
+    }
+
+    @Override
+    public List<PmsProduct> activityList(Integer pageNum, Integer pageSize) {
+        int offset = pageSize * (pageNum - 1);
+        return homeDao.getActivityList(offset, pageSize);
     }
 
     private HomeFlashPromotion getHomeFlashPromotion() {

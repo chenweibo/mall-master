@@ -150,7 +150,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
                 }
             }
 
-            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort).reversed()).collect(Collectors.toList());
+            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort)).collect(Collectors.toList());
             return res;
         } else {
 
@@ -165,7 +165,7 @@ public class PmsPortalProductServiceImpl implements PmsPortalProductService {
 
             }
 
-            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort).reversed()).collect(Collectors.toList());
+            res = res.stream().sorted(Comparator.comparing(SkuFa::getSort)).collect(Collectors.toList());
             return res;
         }
 
